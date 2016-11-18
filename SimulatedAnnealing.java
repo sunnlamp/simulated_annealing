@@ -50,6 +50,7 @@ public class SimulatedAnnealing {
 						int deltaE = possibleNextState.GetAttacks() - currentState.GetAttacks();
 						if(AcceptanceProbability(deltaE, temperature)) {
 							currentState.AcceptState(possibleNextState.board);
+							System.out.println("Probability Accepted");
 						}
 						temperature--;
 					}
@@ -76,22 +77,20 @@ public class SimulatedAnnealing {
 		// for temperatures between 100 and 2500 k must be 0.05
 		// for temperatures under 100 k must be 0.
 		// Multiply k with deltaE to find acceptance probability (Do not use Math.exp())
-		if(deltaE < 0) {
-			return true;
-		}
 		double k = 0;
-		if(temperature > 5000) {
+		if(temperature >= 5000) {
 			k = 0.2;
-		} else if(temperature > 2500 && temperature < 5000) {
+		} else if(temperature >= 2500 && temperature < 5000) {
 			k = 0.1;
-		} else if(temperature > 100 && temperature < 2500) {
+		} else if(temperature >= 100 && temperature < 2500) {
 			k = 0.05;
 		} else if(temperature < 100) {
 			k = 0;
 		}
 		double probability = k * deltaE;
-		Random random = new Random();
-		if(random.nextInt() < probability) {
+		System.out.println(" " + probability * 100 + "%");
+		double random = Math.random();
+		if(random <= probability) {
 			return true;
 		}
 		return false;
